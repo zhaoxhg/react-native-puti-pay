@@ -23,10 +23,10 @@ android {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:+'
+    implementation 'com.facebook.react:react-native:+'
     // From node_modules
-    compile files('libs/alipaySdk-20180601.jar')
-    // compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation files('libs/alipaySdk-20180601.jar')
+    // implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     // 直接引用最新版本
     api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
 }
