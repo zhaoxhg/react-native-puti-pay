@@ -1,3 +1,25 @@
+## Install （@zhaoxhg/react-native-puti-pay）
+
+```shell
+npm i --save @zhaoxhg/react-native-puti-pay
+```
+
+or
+
+```shell
+yarn add @zhaoxhg/react-native-puti-pay
+```
+
+<0.6.0 react-native link @zhaoxhg/react-native-puti-pay
+
+import XPay from "@zhaoxhg/react-native-puti-pay";
+
+以上为使用该forks的全部步骤。
+
+===========================================================================
+
+以下为原文：
+
 # react-native-puti-pay
 
 ## Getting started
