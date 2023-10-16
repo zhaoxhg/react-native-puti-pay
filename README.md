@@ -14,6 +14,8 @@ yarn add @zhaoxhg/react-native-puti-pay
 
 import XPay from "@zhaoxhg/react-native-puti-pay";
 
+微信支付需要做一些配置，参考官方文档：[https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html#SDK接入成功验证指引](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html#SDK接入成功验证指引)
+
 以上为使用该forks的全部步骤。
 
 ===========================================================================
