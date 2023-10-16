@@ -23,7 +23,12 @@ export default class XPay {
      * @param id
      */
     static setWxId(id, universalLink) {
-        NativeModules.PutiPay.setWxConfig({wxId:id, universalLink:universalLink});
+        if (Platform.OS === 'ios'){
+            NativeModules.PutiPay.setWxConfig({wxId:id, universalLink:universalLink});
+        }
+        else{
+            NativeModules.PutiPay.setWxId(id);
+        }
     }
 
     /**
