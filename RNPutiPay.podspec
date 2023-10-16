@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   #s.dependency "WechatOpenSDK-XCFramework"
   #s.resource = "AlipaySDK.bundle"
   #s.vendored_frameworks = 'AlipaySDK.framework'
-  s.vendored_libraries = "ios/libWeChatSDK.a"
+  #s.vendored_libraries = "ios/libWeChatSDK.a"
   s.frameworks = "SystemConfiguration", "CoreTelephony", "QuartzCore", "CoreText", "CoreGraphics", "UIKit", "Foundation", "CFNetwork", "CoreMotion"
   s.library = "c++", "z", "sqlite3.0", "sqlite3"
 
