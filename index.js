@@ -22,8 +22,8 @@ export default class XPay {
      * 设置微信APPID
      * @param id
      */
-    static setWxId(id) {
-        NativeModules.PutiPay.setWxId(id);
+    static setWxId(id, universalLink) {
+        NativeModules.PutiPay.setWxConfig({wxId:id, universalLink:universalLink});
     }
 
     /**
