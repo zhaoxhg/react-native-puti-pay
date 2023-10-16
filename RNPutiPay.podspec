@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
 
   s.dependency "React"
   s.dependency "AlipaySDK-iOS"
+  s.dependency "WechatOpenSDK"
   #s.dependency "WechatOpenSDK-XCFramework"
   #s.resource = "AlipaySDK.bundle"
   #s.vendored_frameworks = 'AlipaySDK.framework'
