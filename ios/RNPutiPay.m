@@ -48,9 +48,9 @@ RCT_EXPORT_MODULE(PutiPay)
     }
 }
 
-RCT_EXPORT_METHOD(setWxId:(NSString *)wxid){
+RCT_EXPORT_METHOD(setWxConfig:(NSDictionary *)config){
     wxOpenId = wxid;
-    [WXApi registerApp:wxid];
+    [WXApi registerApp:config.wxId universalLink:config.universalLink];
 }
 RCT_EXPORT_METHOD(setAlipayScheme:(NSString *)scheme){
     alipayScheme = scheme;
@@ -92,7 +92,7 @@ RCT_EXPORT_METHOD(wxPay:(NSDictionary *)params  callback:(RCTResponseSenderBlock
     req.sign = params[@"sign"];
     //发送请求到微信，等待微信返回onResp
     dispatch_async(dispatch_get_main_queue(), ^{
-        [WXApi sendReq:req];
+        [WXApi sendReq:req completion:^(BOOL success){}];
     });
     wxCallBack = callback;
 }
