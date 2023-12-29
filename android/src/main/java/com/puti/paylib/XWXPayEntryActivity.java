@@ -12,6 +12,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -58,6 +59,25 @@ public abstract class XWXPayEntryActivity extends Activity implements IWXAPIEven
                 data.putString("errStr", resp.errStr);
                 data.putString("errCode", "" + resp.errCode);
                 data.putString("type", "" + resp.getType());
+                callback.callBack(data);
+            }
+            //resp.errCode == 0 支付成功
+            // resp.errCode == -1
+            // 原因：支付错误,可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等
+            // resp.errCode == -2 原因 用户取消,无需处理。发生场景：用户不支付了，点击取消，返回APP
+            callback = null;
+            finish(); // ----支付结束关闭本界面
+        }
+        else if (resp.getType() == ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM) {
+            WXLaunchMiniProgram.Resp launchMiniProResp = (WXLaunchMiniProgram.Resp) resp;
+            String extraData =launchMiniProResp.extMsg; //对应小程序组件 <button open-type="launchApp"> 中的 app-parameter 属性
+            if (callback != null) {
+                Log.e(TAG, "callback");
+                WritableMap data = Arguments.createMap();
+                data.putString("errStr", resp.errStr);
+                data.putString("errCode", "" + resp.errCode);
+                data.putString("type", "" + resp.getType());
+                data.putString("extraData", extraData);
                 callback.callBack(data);
             }
             //resp.errCode == 0 支付成功
