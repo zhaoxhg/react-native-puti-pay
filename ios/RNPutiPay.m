@@ -97,6 +97,21 @@ RCT_EXPORT_METHOD(wxPay:(NSDictionary *)params  callback:(RCTResponseSenderBlock
     wxCallBack = callback;
 }
 
+RCT_EXPORT_METHOD(wxMiniPay:(NSDictionary *)params  callback:(RCTResponseSenderBlock)callback)
+{
+    
+    NSLog(@"wxPay:%@", params);
+    WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
+    launchMiniProgramReq.userName = params[@"userName"];  //拉起的小程序的username
+    launchMiniProgramReq.path = params[@"path"];    ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+    launchMiniProgramReq.miniProgramType = params[@"miniProgramType"]; //拉起小程序的类型（正式版=0| 开发版=1 | 体验版=2）
+    //发送请求到微信，等待微信返回onResp
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [WXApi sendReq:launchMiniProgramReq completion:^(BOOL success){}];
+    });
+    wxCallBack = callback;
+}
+
 - (void)onReq:(BaseReq *)req{
     NSLog(@"onReq%@",req);
 }
@@ -109,6 +124,20 @@ RCT_EXPORT_METHOD(wxPay:(NSDictionary *)params  callback:(RCTResponseSenderBlock
             [data setValue:resp.errStr forKey:@"errStr"];
             [data setValue:@(resp.type) forKey:@"type"];
             [data setValue:@(resp.errCode) forKey:@"errCode"];
+            wxCallBack([[NSArray alloc] initWithObjects:data, nil]);
+            wxCallBack = nil;
+        }
+    }
+    else if ([resp isKindOfClass:[WXLaunchMiniProgramResp class]])
+    {
+        NSString *string = resp.extMsg;
+        // 对应小程序组件 <button open-type="launchApp"> 中的 app-parameter 属性
+        if (wxCallBack != nil) {
+            NSMutableDictionary *data = [NSMutableDictionary new];
+            [data setValue:resp.errStr forKey:@"errStr"];
+            [data setValue:@(resp.type) forKey:@"type"];
+            [data setValue:@(resp.errCode) forKey:@"errCode"];
+            [data setValue:string forKey:@"extraData"];
             wxCallBack([[NSArray alloc] initWithObjects:data, nil]);
             wxCallBack = nil;
         }
