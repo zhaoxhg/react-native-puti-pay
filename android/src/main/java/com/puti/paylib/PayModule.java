@@ -1,5 +1,7 @@
 package com.puti.paylib;
 
+import android.widget.Toast;
+
 import com.alipay.sdk.app.PayTask;
 import com.alipay.sdk.app.EnvUtils;
 import com.facebook.react.bridge.Arguments;
@@ -9,6 +11,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -90,4 +93,22 @@ public class PayModule extends ReactContextBaseJavaModule {
         api.sendReq(req);
     }
 
+    @ReactMethod
+    public void wxMiniPay(ReadableMap params, final Callback callback) {
+        IWXAPI api = WXAPIFactory.createWXAPI(getCurrentActivity(), WX_APPID);
+
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = params.getString("userName");            // 填小程序原始id
+        req.path = params.getString("path");                  ////拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+//        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+        req.miniprogramType = params.getInt("miniprogramType");// 正式版=0| 开发版=1 | 体验版=2
+//        Toast.makeText(getCurrentActivity(), (req.userName+","+req.path+","+WX_APPID), Toast.LENGTH_SHORT).show();
+        XWXPayEntryActivity.callback = new WXPayCallBack() {
+            @Override
+            public void callBack(WritableMap result) {
+                callback.invoke(result);
+            }
+        };
+        api.sendReq(req);
+    }
 }
