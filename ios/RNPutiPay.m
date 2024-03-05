@@ -130,14 +130,14 @@ RCT_EXPORT_METHOD(wxMiniPay:(NSDictionary *)params  callback:(RCTResponseSenderB
     }
     else if ([resp isKindOfClass:[WXLaunchMiniProgramResp class]])
     {
-        NSString *string = resp.extMsg;
+        // NSString *string = resp.extMsg;
         // 对应小程序组件 <button open-type="launchApp"> 中的 app-parameter 属性
         if (wxCallBack != nil) {
             NSMutableDictionary *data = [NSMutableDictionary new];
             [data setValue:resp.errStr forKey:@"errStr"];
             [data setValue:@(resp.type) forKey:@"type"];
             [data setValue:@(resp.errCode) forKey:@"errCode"];
-            [data setValue:string forKey:@"extraData"];
+            // [data setValue:string forKey:@"extraData"];
             wxCallBack([[NSArray alloc] initWithObjects:data, nil]);
             wxCallBack = nil;
         }
